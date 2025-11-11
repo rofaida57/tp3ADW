@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tp3</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 20px; background-color: #f4f4f9; }
+        div { margin-bottom: 30px; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #fff; }
+        h2 { color: #333; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+        input, button { padding: 10px; margin: 5px; border-radius: 4px; border: 1px solid #ddd; }
+        button { background-color: #007bff; color: white; cursor: pointer; border: none; }
+        button:hover { background-color: #0056b3; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        #animateBox { width: 100px; height: 100px; background-color: #28a745; margin-top: 10px; position: relative; }
+        #eventBox { width: 200px; height: 100px; background-color: #ffc107; text-align: center; line-height: 100px; margin-top: 10px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <h1>Tp3</h1>
+
+    <!-- 1. Summing Two Numbers -->
+    <div>
+        <h2>1. Sum Two Numbers</h2>
+        <input type="number" id="num1" placeholder="First Number">
+        <input type="number" id="num2" placeholder="Second Number">
+        <button id="calcSum">Calculate Sum</button>
+        <p id="sumResult"></p>
+    </div>
+
+    <!-- 2. Login and Redirect -->
+    <div>
+        <h2>2. Login in Facebook</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button id="loginBtn">Login</button>
+        <p id="loginMessage" style="color:red;"></p>
+    </div>
+
+    <!-- 3. Show and Hide -->
+    <div>
+        <h2>3. Show and Hide an Image</h2>
+        <img id="toggleImage" src="logo.png" alt="Sample Image">
+        <br>
+        <button id="showBtn">Show</button>
+        <button id="hideBtn">Hide</button>
+        <button id="toggleBtn">Toggle</button>
+    </div>
+
+    <!-- 4. Add and Delete from a Table -->
+    <div>
+        <h2>4. Manage a Fruit List</h2>
+        <table id="fruitsTable">
+            <thead><tr><th>Fruit Name</th></tr></thead>
+            <tbody>
+                <tr><td>Apple</td></tr>
+                <tr><td>Banana</td></tr>
+            </tbody>
+        </table>
+        <input type="text" id="newFruit" placeholder="New fruit name">
+        <button id="addFruitBtn">Add</button>
+    </div>
+
+    <!-- 5. Change Element Content and Style -->
+    <div>
+        <h2>5. Change Text and Color</h2>
+        <p id="styleText">This text will be changed.</p>
+        <button id="changeTextBtn">Change Text</button>
+        <button id="changeColorBtn">Change Color</button>
+    </div>
+
+    <!-- 6. Animation Effects -->
+    <div>
+        <h2>6. Animation Effects</h2>
+        <div id="animateBox"></div>
+        <button id="animateBtn">Animate Box</button>
+        <button id="resetBtn">Reset</button>
+    </div>
+
+    <!-- 7. Handling Mouse Events -->
+    <div>
+        <h2>7. Mouse Events</h2>
+        <div id="eventBox">Hover over me or click</div>
+        <p id="eventResult"></p>
+    </div>
+
+<script>
+ $(document).ready(function() {
+
+    // 1. Summing two numbers
+    $('#calcSum').click(function() {
+        let a = parseFloat($('#num1').val());
+        let b = parseFloat($('#num2').val());
+        if (!isNaN(a) && !isNaN(b)) {
+            $('#sumResult').text('The sum is: ' + (a + b));
+        } else {
+            $('#sumResult').text('Please enter valid numbers.');
+        }
+    });
+
+    // 2. Login and redirect
+    $('#loginBtn').click(function() {
+        let user = $('#username').val().trim();
+        let pass = $('#password').val().trim();
+        if (user !== '' && pass !== '') {
+            window.location.href = 'https://www.facebook.com';
+        } else {
+            $('#loginMessage').text('Please fill in all fields.');
+        }
+    });
+
+    // 3. Show and hide
+    $('#showBtn').click(function() { $('#toggleImage').show(500); });
+    $('#hideBtn').click(function() { $('#toggleImage').hide(500); });
+    $('#toggleBtn').click(function() { $('#toggleImage').toggle(500); });
+
+    // 4. Add and delete from a table
+    $('#addFruitBtn').click(function() {
+        let fruitName = $('#newFruit').val().trim();
+        if (fruitName) {
+            $('#fruitsTable tbody').append('<tr><td>' + fruitName + '</td></tr>');
+            $('#newFruit').val('');
+        }
+    });
+    // Event delegation to delete a row on click
+    $('#fruitsTable tbody').on('click', 'tr', function() {
+        $(this).fadeOut(300, function() { $(this).remove(); });
+    });
+
+    // 5. Change element content and style
+    $('#changeTextBtn').click(function() {
+        $('#styleText').text('Text changed successfully!');
+    });
+    $('#changeColorBtn').click(function() {
+        $('#styleText').css('color', 'blue').css('font-size', '20px');
+    });
+
+    // 6. Animation effects
+    $('#animateBtn').click(function() {
+        $('#animateBox').animate({ left: '250px', opacity: 0.5, height: '150px', width: '150px' }, 1000);
+    });
+    $('#resetBtn').click(function() {
+        $('#animateBox').css({ left: '0px', opacity: 1, height: '100px', width: '100px' });
+    });
+
+    // 7. Handling mouse events
+    $('#eventBox').mouseenter(function() {
+        $('#eventResult').text('Mouse entered the box!');
+    });
+    $('#eventBox').mouseleave(function() {
+        $('#eventResult').text('Mouse left the box!');
+    });
+    $('#eventBox').click(function() {
+        $('#eventResult').text('Box was clicked!');
+    });
+
+});
+</script>
+
+</body>
+</html>
